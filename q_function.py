@@ -1,7 +1,8 @@
 import math
+import random
 
 from environment import Environment, State, Action
-from util import register
+from util import * 
 from encoding import CharEncoding
 
 import torch
@@ -28,6 +29,7 @@ class QFunction(nn.Module):
                 state: State,
                 max_steps: int,
                 beam_size: int = 1,
+                corrupt: float = 0.0,
                 debug: bool = False) -> tuple[bool, list[list[State]]]:
         """Runs beam search using the Q value until either
         max_steps have been made or reached a terminal state."""
@@ -63,13 +65,23 @@ class QFunction(nn.Module):
             ns = list(set([a.next_state for a in actions]) - seen)
             ns.sort(key=lambda s: s.value, reverse=True)
 
+            # corrupt trajectory based on the corrupt parameter
+            if random.uniform(0, 1) < corrupt:
+                corruption_results = [corrupt_state(s) for s in ns]
+                ns = [s for s, _ in corruption_results] 
+                corruption = [s for _, s in corruption_results] 
+
+            ns = [filter_state(s) for s in ns]                
+
             if debug:
                 print(f'Candidates: {[(s, s.value) for s in ns]}')
 
             beam = ns[:beam_size]
+            
             history.append(ns)
             seen.update(ns)
-
+        if history[-1][0].corrupt:
+            success = False
         return success, history
 
     def recover_solutions(self, rollout_history: list[list[State]]) -> list[list[State]]:

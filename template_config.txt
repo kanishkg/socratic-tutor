@@ -17,7 +17,8 @@
             "type": <str> (one of: "Bilinear" (for ConPoLe), "StateRNNValueFn" (for CVI), "DRRN" (for DRRN))
         },
         "replay_buffer_size": <int> (default: 1000000),
-        "lr": <float> (default: 1e-4; learning rate)
+        "lr": <float> (default: 1e-4; learning rate),
+        "corrupt": <float> (default: 0.; probabilty of corrupting a state)
     },
     "environment_url": "http://127.0.0.1:9898",
     "eval_environment": {

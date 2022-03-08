@@ -21,7 +21,7 @@ from torch.distributions.categorical import Categorical
 import wandb
 
 import util
-from util import register
+from util import *
 from environment import Environment, State, Action
 from evaluation import EnvironmentWithEvaluationProxy, evaluate_policy, evaluate_policy_checkpoints
 from q_function import QFunction, InverseLength, RandomQFunction, RubiksGreedyHeuristic
@@ -85,6 +85,7 @@ class NCE(LearningAgent):
         self.initial_depth = config['initial_depth']
         self.step_every = config['step_every']
         self.beam_size = config['beam_size']
+        self.corrupt = config['corrupt']
 
         self.optimize_every = config.get('optimize_every', 1)
         self.n_gradient_steps = config.get('n_gradient_steps', 64)
@@ -189,9 +190,23 @@ class NCE(LearningAgent):
                     next_states.append(ns)
 
             next_states.sort(key=lambda s: s.value, reverse=True)
+
             # Remove duplicates while keeping the order (i.e. if a state appears multiple times,
             # keep the one with the largest value). Works because dict is ordered in Python 3.6+.
             next_states = [s for s in dict.fromkeys(next_states) if s not in seen]
+            
+            # corrupt states
+            corruption_results = []
+            for s in next_states:
+                if random.uniform(0, 1) < self.corrupt:
+                    corruption_results.append(corrupt_state(s)[1])
+                else:
+                    corruption_results.append(s)
+            next_state = [s for s in corruption_results] 
+
+            # check for errors in corruption
+            next_state = [filter_state(s) for s in ns]          
+
             visited_states.append(next_states)
             seen.update(next_states)
             beam = next_states[:self.beam_size]
@@ -200,10 +215,17 @@ class NCE(LearningAgent):
             if not beam:
                 break
 
-        logging.info('Solved? {} (solution len {}, q={})'
+        corrupted_answer = False
+        if solution is not None:
+            if solution.corrupt == True:
+                solution = None
+                corrupted_answer = True
+
+        logging.info('Solved? {} (solution len {}, q={}, corrupted={})'
                      .format(solution is not None,
                              solution and len(visited_states),
-                             type(q)))
+                             type(q),
+                             corrupted_answer)
 
         # If found a solution, make contrastive examples from each iteration.
         if solution is not None:
