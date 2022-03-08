@@ -26,6 +26,7 @@ class SuccessRatePolicyEvaluator:
         self.max_steps = config.get('max_steps', 30)  # Maximum length of an episode.
         self.beam_size = config.get('beam_size', 1)  # Size of the beam in beam search.
         self.debug = config.get('debug', False)  # Whether to print all steps during evaluation.
+        self.corrupt = config.get('corrupt', 0.)  # Whether to corrupt the environment.
 
     def evaluate(self, q, verbose=False, show_progress=False):
         successes, failures, solution_lengths = [], [], []
@@ -34,7 +35,8 @@ class SuccessRatePolicyEvaluator:
         for i in wrapper(range(self.n_problems)):
             problem = self.environment.generate_new(seed=(self.seed + i))
             success, history = q.rollout(self.environment, problem,
-                                         self.max_steps, self.beam_size, self.debug)
+                                         self.max_steps, self.beam_size,
+                                         self.corrupt, self.debug)
             if success:
                 successes.append((i, problem))
             else:

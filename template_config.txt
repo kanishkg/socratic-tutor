@@ -29,6 +29,7 @@
             "max_steps": <int> (default: 30; maximum steps during solution finding),
             "beam_size": <int> (default: 1; beam size during beam search),
             "debug": <bool> (default: false; whether to print all steps during evaluation)
+            "corrupt": <float> (default: 0.; probabilty of state corruption in evaluation)
         },
         "max_steps": <int> (e.g. 10000000; maximum number of environment steps during training),
         "print_every": <int> (default: 100; interval between consecutive prints of training progress),
