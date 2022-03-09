@@ -202,10 +202,10 @@ class NCE(LearningAgent):
                     corruption_results.append(corrupt_state(s)[1])
                 else:
                     corruption_results.append(s)
-            next_state = [s for s in corruption_results] 
+            next_states = [s for s in corruption_results] 
 
             # check for errors in corruption
-            next_state = [filter_state(s) for s in ns]          
+            next_states = [filter_state(s) for s in next_states]          
 
             visited_states.append(next_states)
             seen.update(next_states)
