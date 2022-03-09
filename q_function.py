@@ -22,7 +22,7 @@ class QFunction(nn.Module):
     def aggregate(self, cumulative_score, next_q_score):
         '''Returns a function that properly combines the scores of two steps from this q function.'''
         # The default is for QFunctions to return probabilities, so summing their log is the default.
-        return cumulative_score + math.log(next_q_score)
+        return cumulative_score + math.log(next_q_score+1e-5)
 
     def rollout(self,
                 environment: Environment,
