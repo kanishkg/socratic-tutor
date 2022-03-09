@@ -155,7 +155,13 @@ class RustEnvironment(Environment):
         domain = domain or self.default_domain
 
         try:
-            next_states = commoncore.step(domain, [s.facts[-1] for s in states])
+            next_states = []
+            for s in states:
+                corrupt_status = s.corrupt
+                ns = commoncore.step(domain, [s.facts[-1]])
+                for i in range(len(ns)):
+                    ns[i].corrupt = corrupt_status
+                next_states.extend(ns)
         except:
             print('Error stepping', states, 'in', domain)
             raise
