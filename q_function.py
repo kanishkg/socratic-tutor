@@ -80,8 +80,11 @@ class QFunction(nn.Module):
             
             history.append(ns)
             seen.update(ns)
-        if history[-1][0].corrupt:
-            success = False
+
+        if len(history) > 0:
+            if len(history[-1]) > 0:
+                if history[-1][0].corrupt:
+                    success = False
         return success, history
 
     def recover_solutions(self, rollout_history: list[list[State]]) -> list[list[State]]:
