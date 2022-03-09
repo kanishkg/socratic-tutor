@@ -199,7 +199,7 @@ class NCE(LearningAgent):
             corruption_results = []
             for s in next_states:
                 if random.uniform(0, 1) < self.corrupt:
-                    corruption_results.append(corrupt_state(s)[1])
+                    corruption_results.append(corrupt_state(s)[0])
                 else:
                     corruption_results.append(s)
             next_states = [s for s in corruption_results] 
