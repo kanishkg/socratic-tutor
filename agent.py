@@ -821,8 +821,8 @@ def run_agent_experiment(config, device):
     wandb.init(id=run_id,
                name=run_id,
                config=config,
-               entity='socratic',
-               project=config.get('wandb_project', 'test'),
+               entity='kanishkgandhi',
+               project='socratic',
                reinit=True)
 
     env = Environment.from_config(config)
