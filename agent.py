@@ -221,11 +221,7 @@ class NCE(LearningAgent):
                 solution = None
                 corrupted_answer = True
 
-        logging.info('Solved? {} (solution len {}, q={}, corrupted={})'
-                     .format(solution is not None,
-                             solution and len(visited_states),
-                             type(q),
-                             corrupted_answer)
+        logging.info(f'Solved? {solution is not None} (solution len {solution and len(visited_states)}, q={type(q)}, corrupted={corrupted_answer})')
 
         # If found a solution, make contrastive examples from each iteration.
         if solution is not None:
