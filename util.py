@@ -2,6 +2,7 @@
 
 import random
 import datetime
+import re
 
 signs = ['+', '-']
 
