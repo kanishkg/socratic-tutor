@@ -187,6 +187,7 @@ class NCE(LearningAgent):
                 for a in state_actions:
                     ns = a.next_state
                     ns.value = q.aggregate(s.value, a.value)
+                    ns.corrupt = s.corrupt
                     next_states.append(ns)
 
             next_states.sort(key=lambda s: s.value, reverse=True)
