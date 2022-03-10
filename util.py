@@ -79,7 +79,6 @@ def filter_state(state):
     return state
 
 def corrupt_vars(fact):
-    init_fact = fact
     # choose to add or delete variables
     prob = random.uniform(0, 1)
     # randomly delete a var from the equation
@@ -141,6 +140,10 @@ def corrupt_sigs(fact):
     fact = list(fact)
     fact[idx] = ns
     fact = "".join(fact)
+    return fact
+
+def corrupt_parantheses(fact):
+
     return fact
 
 def corrupt_state(state):
