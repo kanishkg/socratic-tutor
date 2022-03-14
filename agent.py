@@ -160,7 +160,7 @@ class NCE(LearningAgent):
         logging.info(f'Trying {state}')
 
         for i in range(self.current_depth):
-            rewards, actions = zip(*environment.step(beam))
+            rewards, actions = zip(*environment.step(beam, corrupt=self.corrupt))
 
             for s, r, state_actions in zip(beam, rewards, actions):
                 # Record solution, if found.
