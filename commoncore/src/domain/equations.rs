@@ -637,7 +637,7 @@ fn a_eval(t: &SizedTerm, i: usize, corrupt: f32) -> Option<(SizedTerm, String, S
                     answer = rng.gen_range(0..100);    
                 }
                 return Some((SizedTerm::new(Number(answer), 1),
-                             format!("eval {}, {}", i, t.to_string()),
+                             format!("eval {}, {}, {}", is_corrupted, i, t.to_string()),
                              format!("Calculate {}", t.to_string()),
                              is_corrupted));
             }

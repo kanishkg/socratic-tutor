@@ -155,7 +155,7 @@ class RustEnvironment(Environment):
         domain = domain or self.default_domain
 
         try:
-            next_states = commoncore.step(domain, [s.facts[-1] for s in states])
+            next_states = commoncore.step(domain, [s.facts[-1] for s in states], corrupt)
         except:
             print('Error stepping', states, 'in', domain)
             raise
@@ -163,9 +163,9 @@ class RustEnvironment(Environment):
         rewards = [int(ns is None) for ns in next_states]
         actions = [[Action(state,
                            formal_desc,
-                           State(state.facts + (next_state,), state.goals, 0.0),
+                           State(state.facts + (next_state,), state.goals, 0.0, corrupt=is_corrupted),
                            0.0)
-                    for (next_state, formal_desc, human_desc) in (actions or [])]
+                    for (next_state, formal_desc, human_desc, is_corrupted) in (actions or [])]
                    for state, actions in zip(states, next_states)]
 
         for i, (s, sa) in enumerate(zip(states, actions)):
