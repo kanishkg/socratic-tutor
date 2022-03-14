@@ -151,7 +151,7 @@ class RustEnvironment(Environment):
         problem = commoncore.generate(domain, seed)
         return State([problem], [''], 0.0)
 
-    def step(self, states, domain=None):
+    def step(self, states, corrupt=0.0, domain=None):
         domain = domain or self.default_domain
 
         try:

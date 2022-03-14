@@ -348,7 +348,7 @@ impl super::Domain for Equations {
         term.randomize_numbers(&mut rng).to_string()
     }
 
-    fn step(&self, state: State) -> Option<Vec<Action>> {
+    fn step(&self, state: State, corrupt: f32) -> Option<Vec<Action>> {
         let t = SizedTerm::from_str(&state).unwrap();
         if t.is_solved() {
             return None;
@@ -368,16 +368,28 @@ impl super::Domain for Equations {
         let rct = Rc::new(t);
         rct.collect_children(&mut children);
 
-        for local_rewrite_tactic in &[a_commutativity,
+        for (j, local_rewrite_tactic) in &[a_commutativity,
                                       a_associativity,
                                       a_distributivity,
                                       a_eval,
                                       a_cancel_ops,
-                                      a_identity_ops] {
-            for (i, st) in children.iter().enumerate() {
-                if let Some((nt, fd, hd)) = local_rewrite_tactic(st, i) {
-                    let next_state = rct.replace_at_index(i, &nt);
-                    actions.push((next_state, fd, hd));
+                                      a_identity_ops].iter().enumerate() {
+            if j == 3 {
+                /// Eval corruption.
+                for (i, st) in children.iter().enumerate() {
+                    /// human description and formal description for each tactic
+                    if let Some((nt, fd, hd, c)) = local_rewrite_tactic(st, i, corrupt) {
+                        let next_state = rct.replace_at_index(i, &nt);
+                        actions.push((next_state, fd, hd));
+                    }
+                }
+            }
+            else{
+                for (i, st) in children.iter().enumerate() {
+                    if let Some((nt, fd, hd)) = local_rewrite_tactic(st, i) {
+                        let next_state = rct.replace_at_index(i, &nt);
+                        actions.push((next_state, fd, hd));
+                    }
                 }
             }
         }
@@ -569,13 +581,64 @@ fn a_distributivity(t: &SizedTerm, i: usize) -> Option<(SizedTerm, String, Strin
     None
 }
 
-fn a_eval(t: &SizedTerm, i: usize) -> Option<(SizedTerm, String, String)> {
+fn a_eval(t: &SizedTerm, i: usize, corrupt: f32) -> Option<(SizedTerm, String, String, bool)> {
+    let mut rng = rand::thread_rng();
     if let BinaryOperation(op, t1, t2) = t.t.borrow() {
         if let (Number(n1), Number(n2)) = (t1.t.borrow(), t2.t.borrow()) {
             if *op != Div || !n2.is_integer() || n2.to_integer() != 0 {
-                return Some((SizedTerm::new(Number(op.evaluate(n1, n2)), 1),
+                if *op == Add {
+                    if n1 < 10 || n2 < 10 {
+                        let mut p = 0.01;
+                    }
+                    else if n1 < 100 || n2 < 100 {
+                        let mut p = 0.2;
+                    }
+                    else {
+                        let mut p = 0.4;
+                    }
+                }
+                if *op == Sub {
+                    if n1 < 10 || n2 < 10 {
+                        let mut p = 0.02;
+                    }
+                    else if n1 < 100 || n2 < 100 {
+                        let mut p = 0.3;
+                    }
+                    else {
+                        let mut p = 0.5;
+                    }
+                }
+                if *op == Times {
+                    if n1 < 10 || n2 < 10 {
+                        let mut p = 0.1;
+                    }
+                    else if n1 < 100 || n2 < 100 {
+                        let mut p = 0.7;
+                    }
+                    else {
+                        let mut p = 1.0;
+                    }
+                }
+                if *op == Div {
+                    if n1 < 10 || n2 < 10 {
+                        let mut p = 0.2;
+                    }
+                    else if n1 < 100 || n2 < 100 {
+                        let mut p = 0.8;
+                    }
+                    else {
+                        let mut p = 1.0;
+                    }
+                }
+                let mut answer = op.evaluate(n1, n2);
+                let mut is_corrupted = false;
+                if rng.gen_range(0.0..1.0) <  p * corrupt {
+                    let answer = rng.gen_range(0..100);    
+                }
+                return Some((SizedTerm::new(Number(answer), 1),
                              format!("eval {}, {}", i, t.to_string()),
-                             format!("Calculate {}", t.to_string())))
+                             format!("Calculate {}", t.to_string()),
+                             is_corrupted));
             }
         }
     }
