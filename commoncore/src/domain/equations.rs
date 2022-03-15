@@ -588,10 +588,10 @@ fn a_eval(t: &SizedTerm, i: usize, corrupt: f32) -> Option<(SizedTerm, String, S
         if let (Number(n1), Number(n2)) = (t1.t.borrow(), t2.t.borrow()) {
             if *op != Div || !n2.is_integer() || n2.to_integer() != 0 {
                 if *op == Add {
-                    if *n1.numer() < 10 || *n2.numer() < 10 {
+                    if n1.to_integer() < 10 || n2.to_integer() < 10 {
                         let mut p = 0.01;
                     }
-                    else if n1 < 100 || n2 < 100 {
+                    else if n1.to_integer() < 100 || n2.to_integer() < 100 {
                         let mut p = 0.2;
                     }
                     else {
@@ -599,10 +599,10 @@ fn a_eval(t: &SizedTerm, i: usize, corrupt: f32) -> Option<(SizedTerm, String, S
                     }
                 }
                 if *op == Sub {
-                    if n1 < 10 || n2 < 10 {
+                    if n1.to_integer() < 10 || n2.to_integer() < 10 {
                         let mut p = 0.02;
                     }
-                    else if n1 < 100 || n2 < 100 {
+                    else if n1.to_integer() < 100 || n2.to_integer() < 100 {
                         let mut p = 0.3;
                     }
                     else {
@@ -610,10 +610,10 @@ fn a_eval(t: &SizedTerm, i: usize, corrupt: f32) -> Option<(SizedTerm, String, S
                     }
                 }
                 if *op == Times {
-                    if n1 < 10 || n2 < 10 {
+                    if n1.to_integer() < 10 || n2.to_integer() < 10 {
                         let mut p = 0.1;
                     }
-                    else if n1 < 100 || n2 < 100 {
+                    else if n1.to_integer() < 100 || n2.to_integer() < 100 {
                         let mut p = 0.7;
                     }
                     else {
@@ -621,10 +621,10 @@ fn a_eval(t: &SizedTerm, i: usize, corrupt: f32) -> Option<(SizedTerm, String, S
                     }
                 }
                 if *op == Div {
-                    if n1 < 10 || n2 < 10 {
+                    if n1.to_integer() < 10 || n2.to_integer() < 10 {
                         let mut p = 0.2;
                     }
-                    else if n1 < 100 || n2 < 100 {
+                    else if n1.to_integer() < 100 || n2.to_integer() < 100 {
                         let mut p = 0.8;
                     }
                     else {
