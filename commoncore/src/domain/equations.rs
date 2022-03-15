@@ -631,10 +631,11 @@ fn a_eval(t: &SizedTerm, i: usize, corrupt: f32) -> Option<(SizedTerm, String, S
                     }
                 }
                 let mut answer = op.evaluate(n1, n2);
-                let mut is_corrupted = false;
-                if rng.gen_range(0.0..1.0) <  p * corrupt {
+                let mut is_corrupted:bool = false;
+                let mut corrupt_prob:f32 = rng.gen_range(0.0, 1.0);
+                if corrupt_prob <  p * corrupt {
                     is_corrupted = true;
-                    answer = rng.gen_range(0..100);    
+                    answer:i32 = rng.gen_range(0..100);    
                 }
                 return Some((SizedTerm::new(Number(answer), 1),
                              format!("eval {}, {}, {}", is_corrupted, i, t.to_string()),
