@@ -56,7 +56,7 @@ fn step(domain: String, states: Vec<String>, corrupt: f32) -> PyResult<Vec<Optio
         if let Some(d) = domains.get(domain.as_str()) {
             let mut result = Vec::with_capacity(states.len());
             for s in states.iter() {
-                result.push(d.step(s.clone()).map(|v| v.iter().map(|a| (a.next_state.clone(),
+                result.push(d.step(s.clone(), corrupt.clone()).map(|v| v.iter().map(|a| (a.next_state.clone(),
                                                                         a.formal_description.clone(),
                                                                         a.human_description.clone())).collect()));
             }
