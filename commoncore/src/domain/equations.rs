@@ -371,28 +371,27 @@ impl super::Domain for Equations {
         for (j, local_rewrite_tactic) in &[a_commutativity,
                                       a_associativity,
                                       a_distributivity,
-                                      a_eval as fn(&SizedTerm, usize, f32) -> Option<(SizedTerm, String, String),
                                       a_cancel_ops,
                                       a_identity_ops].iter().enumerate() {
-            if j == 3 {
-                /// Eval corruption.
-                for (i, st) in children.iter().enumerate() {
-                    /// human description and formal description for each tactic
-                    if let Some((nt, fd, hd, c)) = local_rewrite_tactic(st, i, corrupt) {
-                        let next_state = rct.replace_at_index(i, &nt);
-                        actions.push((next_state, fd, hd));
-                    }
-                }
-            }
-            else{
-                for (i, st) in children.iter().enumerate() {
-                    if let Some((nt, fd, hd)) = local_rewrite_tactic(st, i) {
-                        let next_state = rct.replace_at_index(i, &nt);
-                        actions.push((next_state, fd, hd));
-                    }
+            for (i, st) in children.iter().enumerate() {
+                if let Some((nt, fd, hd)) = local_rewrite_tactic(st, i) {
+                    let next_state = rct.replace_at_index(i, &nt);
+                    actions.push((next_state, fd, hd));
                 }
             }
         }
+
+       
+            /// Eval corruption.
+            for (i, st) in children.iter().enumerate() {
+                /// human description and formal description for each tactic
+                if let Some((nt, fd, hd, c)) = a_eval(st, i, corrupt) {
+                        let next_state = rct.replace_at_index(i, &nt);
+                        actions.push((next_state, fd, hd));
+                    }
+                }
+            }
+ 
 
         let mut seen_before = HashSet::new();
 
