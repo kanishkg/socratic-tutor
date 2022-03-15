@@ -588,7 +588,7 @@ fn a_eval(t: &SizedTerm, i: usize, corrupt: f32) -> Option<(SizedTerm, String, S
         if let (Number(n1), Number(n2)) = (t1.t.borrow(), t2.t.borrow()) {
             if *op != Div || !n2.is_integer() || n2.to_integer() != 0 {
                 if *op == Add {
-                    if n1 < Numeber(10) || n2 < Number(10) {
+                    if *n1.numer() < 10 || *n2.numer() < 10 {
                         let mut p = 0.01;
                     }
                     else if n1 < 100 || n2 < 100 {
@@ -636,7 +636,7 @@ fn a_eval(t: &SizedTerm, i: usize, corrupt: f32) -> Option<(SizedTerm, String, S
                 let mut corrupt_prob: f32 = rng.gen_range(0.0..1.0);
                 if corrupt_prob <  p * corrupt {
                     is_corrupted = true;
-                    let answer: i32 = rng.gen_range(0..100);    
+                    answer: i32 = rng.gen_range(0..100);    
                 }
                 return Some((SizedTerm::new(Number(answer), 1),
                              format!("eval {}, {}, {}", is_corrupted, i, t.to_string()),
