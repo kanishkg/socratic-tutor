@@ -177,7 +177,6 @@ class RustEnvironment(Environment):
                 ns = State(state.facts+(next_state,), state.goals, 0.0, corrupt=is_corrupted)
                 actions_new[-1].append(Action(state,
                                           formal_desc,
-                                          human_desc,
                                           ns))
                 
         actions = actions_new
