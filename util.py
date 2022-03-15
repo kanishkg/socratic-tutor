@@ -142,10 +142,95 @@ def corrupt_sigs(fact):
     fact = "".join(fact)
     return fact
 
+
+def parse_parentheses(fact):
+    open_close = {}
+    par_stack = []
+    for i, c in enumerate(fact):
+        if c == '(':
+            par_stack.append(i)
+        elif c == ')':
+            if len(par_stack) == 0:
+                raise IndexError("No matching closing parens at: " + str(i))
+            open_close[par_stack.pop()] = i
+    if len(par_stack) > 0:
+        raise IndexError("No matching opening parens at: " + str(par_stack.pop()))
+    return open_close
+
+
+
 def corrupt_parantheses(fact):
+    init_fact = fact
+    if '- -' in fact:
+        fact = fact = fact.replace('- -', '+ ')
+    if '+ -' in fact:
+        fact = fact = fact.replace('+ -', '- ')
 
+
+    init_sides = init_fact.split('=')
+    # parse parentheses
+    open_close_dict = parse_parentheses(fact)
+    
+    # remove parentheses from the equation
+    topop = []
+    for k, v in open_close_dict.items():
+        if v-k<=8:
+            if re.search('^\(-[0-9]+x\)$', fact[k:v+1]) or re.search('^\(-[0-9]+\)$', fact[k:v+1]):
+                topop.append(k)
+    for k in topop:
+        open_close_dict.pop(k)
+    pars = [k for k, v in open_close_dict.items()] + [v for k, v in open_close_dict.items()] 
+    fact = [c for i, c in enumerate(fact) if i not in pars]
+    fact = ''.join(fact)
+    blank_fact = fact
+    # process lhs and rhs separately; maybe just corrupt one side?
+    lhs, rhs = fact.split('=')
+    lhs = lhs.strip()
+    rhs = rhs.strip()
+    
+    # parse signs
+    sides = []
+    for sid, hs in enumerate([lhs, rhs]):
+        divids = [i for i, c in enumerate(hs) if c == '/' and '[' not in hs[max(0,i-6):i]]
+        mulids = [i for i, c in enumerate(hs) if c == '*']
+        sigids = [i for i, c in enumerate(hs) if c in ['-','+'] and hs[i-1:i+1]!='(-' and 'x' not in hs[i:i+5] and '[' not in hs[max(0,i-3):i]]
+        
+        # skip if there are are either only pos/neg or only mul/div
+        if len(sigids) == 0 or len(mulids)+len(divids) == 0:
+            sides.append(init_sides[sid])
+            continue
+
+        # start adding paranetheses around the signs
+        all_sigs = sorted(divids+mulids+sigids)
+        num_par = len(all_sigs)
+        for i in range(num_par):
+            idx = random.choice(all_sigs)
+            prev_idx = next_idx = None
+            if all_sigs.index(idx) != 0:
+                prev_idx = all_sigs[all_sigs.index(idx)-1]
+            if all_sigs.index(idx) != len(all_sigs)-1:
+                next_idx = all_sigs[all_sigs.index(idx)+1]
+            if prev_idx is not None and next_idx is not None:
+                hs = hs[:prev_idx+2] + '(' + hs[prev_idx+2:next_idx-1] + ')' + hs[next_idx-1:]
+            elif prev_idx is None and next_idx is None:
+                hs = '(' + hs + ')'
+            elif prev_idx is None:
+                hs = '(' + hs[:next_idx-1] + ')' + hs[next_idx-1:]
+            elif next_idx is None:
+                hs = hs[:prev_idx+2] + '(' + hs[prev_idx+2:] + ')'
+            del all_sigs[all_sigs.index(idx)]
+            new_sigs = []
+            # update the indices after adding parantheses
+            for s in all_sigs:
+                if s > idx:
+                    new_sigs.append(s+2)
+                else:
+                    new_sigs.append(s)
+            all_sigs = new_sigs
+        sides.append(hs)
+    fact = sides[0]+' = ' +sides[1]
     return fact
-
+    
 def corrupt_state(state):
     final_fact = state.facts[-1]
     success = True
