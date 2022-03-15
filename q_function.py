@@ -45,7 +45,7 @@ class QFunction(nn.Module):
             if not beam:
                 break
 
-            rewards, s_actions = zip(*environment.step(beam))
+            rewards, s_actions = zip(*environment.step(beam), corrupt=corrupt)
             actions = [a for s_a in s_actions for a in s_a]
 
             if max(rewards):
@@ -62,7 +62,13 @@ class QFunction(nn.Module):
             for a, v in zip(actions, q_values):
                 a.next_state.value = self.aggregate(a.state.value, v)
 
-            ns = list(set([a.next_state for a in actions]) - seen)
+            ns = []
+            for a in actions:
+                nsi = a.next_state
+                nsi.corrupt = a.state.corrupt
+                ns.append(nsi)
+
+            ns = list(set(ns) - seen)
             ns.sort(key=lambda s: s.value, reverse=True)
 
             # corrupt trajectory based on the corrupt parameter
