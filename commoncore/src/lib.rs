@@ -51,7 +51,7 @@ fn generate(domain: String, seed: u64) -> PyResult<String> {
 
 /// Returns the actions and rewards for each given state.
 #[pyfunction]
-fn step(domain: String, states: Vec<String>, corrupt: f32) -> PyResult<Vec<Option<Vec<(String, String, String, String)>>>> {
+fn step(domain: String, states: Vec<String>, corrupt: f32) -> PyResult<Vec<Option<Vec<(String, String, String)>>>> {
     DOMAINS.with(|domains| {
         if let Some(d) = domains.get(domain.as_str()) {
             let mut result = Vec::with_capacity(states.len());
