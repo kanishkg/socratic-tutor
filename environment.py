@@ -161,9 +161,9 @@ class RustEnvironment(Environment):
             raise
 
         rewards = [int(ns is None) for ns in next_states]
-        actions = []
+        actions_new = []
         for state, actions in zip(states, next_states):
-            actions.append([])
+            actions_new.append([])
             for (next_state, formal_desc, human_desc) in (actions or []):
                 is_corrupted = False
                 print(formal_desc)
@@ -175,18 +175,12 @@ class RustEnvironment(Environment):
                     else:
                         raise NotImplementedError
                 ns = State(state.facts+(next_state,), state.goals, 0.0, corrupt=is_corrupted)
-                actions[-1].append(Action(state,
+                actions_new[-1].append(Action(state,
                                           formal_desc,
                                           human_desc,
                                           ns))
                 
-        actions = [[Action(state,
-                           formal_desc,
-                           State(state.facts + (next_state,), state.goals, 0.0),
-                           0.0)
-                    for (next_state, formal_desc, human_desc, is_corrupted) in (actions or [])]
-                   for state, actions in zip(states, next_states)]
-
+        actions = actions_new
         for i, (s, sa) in enumerate(zip(states, actions)):
             s.value = rewards[i]
             for a in sa:
