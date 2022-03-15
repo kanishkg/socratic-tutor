@@ -6,14 +6,14 @@ fn bfs(d: &Arc<dyn domain::Domain>, s: &domain::State, max_edges: u32) -> bool {
     let mut seen = HashSet::new();
     let mut queue = VecDeque::new();
     let mut edges_traversed: usize = 0;
-
+    let mut corrupt: f32 = 0.0;
     queue.push_back(s.clone());
     seen.insert(s.clone());
 
     while !queue.is_empty() && edges_traversed < max_edges as usize {
         let next = queue.pop_front().unwrap();
 
-        if let Some(actions) = d.step(next) {
+        if let Some(actions) = d.step(next, corrupt) {
             edges_traversed += actions.len();
             for action in actions.iter() {
                 if seen.insert(action.next_state.clone()) {
@@ -39,10 +39,11 @@ fn main() {
             println!("Benchmarking {}...", name);
             let mut n_successes: u32 = 0;
             let mut branching_factor: f32 = 0.0;
+            let mut corrupt: f32 = 0.0;
 
             for i in 0..N_PROBLEMS {
                 let problem = domain.generate(i.into());
-                if let Some(actions) = domain.step(problem.to_string()) {
+                if let Some(actions) = domain.step(problem.to_string(), corrupt) {
                     branching_factor += actions.len() as f32;
                 }
                 if bfs(domain, &problem, MAX_EDGES) {
