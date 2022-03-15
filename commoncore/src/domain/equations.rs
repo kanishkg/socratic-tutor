@@ -382,13 +382,12 @@ impl super::Domain for Equations {
         }
 
        
-            /// Eval corruption.
-            for (i, st) in children.iter().enumerate() {
-                /// human description and formal description for each tactic
-                if let Some((nt, fd, hd, c)) = a_eval(st, i, corrupt) {
-                        let next_state = rct.replace_at_index(i, &nt);
-                        actions.push((next_state, fd, hd));
-                    }
+        /// Eval corruption.
+        for (i, st) in children.iter().enumerate() {
+            /// human description and formal description for each tactic
+            if let Some((nt, fd, hd, c)) = a_eval(st, i, corrupt) {
+                    let next_state = rct.replace_at_index(i, &nt);
+                    actions.push((next_state, fd, hd));
                 }
             }
  
