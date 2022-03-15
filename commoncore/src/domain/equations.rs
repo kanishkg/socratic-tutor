@@ -581,7 +581,7 @@ fn a_distributivity(t: &SizedTerm, i: usize) -> Option<(SizedTerm, String, Strin
     None
 }
 
-fn a_eval(t: &SizedTerm, i: usize, corrupt: f32) -> Option<(SizedTerm, String, String, bool)> {
+fn a_eval(t: &SizedTerm, i: usize, corrupt: f32) -> Option<(SizedTerm, String, String, String)> {
     let mut rng = rand::thread_rng();
     let mut p = 0.0;
     if let BinaryOperation(op, t1, t2) = t.t.borrow() {
@@ -641,7 +641,7 @@ fn a_eval(t: &SizedTerm, i: usize, corrupt: f32) -> Option<(SizedTerm, String, S
                 return Some((SizedTerm::new(Number(answer), 1),
                              format!("eval {}, {}, {}", is_corrupted, i, t.to_string()),
                              format!("Calculate {}", t.to_string()),
-                             is_corrupted));
+                             format!("{}", is_corrupted.to_string())));
             }
         }
     }
