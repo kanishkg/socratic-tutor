@@ -45,7 +45,7 @@ class QFunction(nn.Module):
             if not beam:
                 break
 
-            rewards, s_actions = zip(*environment.step(beam), corrupt=corrupt)
+            rewards, s_actions = zip(*environment.step(beam, corrupt=corrupt))
             actions = [a for s_a in s_actions for a in s_a]
 
             if max(rewards):
