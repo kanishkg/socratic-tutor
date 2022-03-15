@@ -64,7 +64,7 @@ class Environment:
     def generate_new(self, domain: str, seed: int = None) -> State:
         raise NotImplementedError()
 
-    def step(self, states: list[State], domain: str = None) -> list[tuple[bool, list[Action]]]:
+    def step(self, states: list[State], domain: str = None, corrupt: float = 0.0) -> list[tuple[bool, list[Action]]]:
         raise NotImplementedError()
 
     def train(self):

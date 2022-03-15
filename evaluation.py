@@ -112,7 +112,7 @@ class EnvironmentWithEvaluationProxy:
         self.n_new_problems += 1
         return self.environment.generate_new(domain, seed)
 
-    def step(self, states, domain=None):
+    def step(self, states, domain=None, corrupt=0.0):
         n_steps_before = self.n_steps
         self.n_steps += len(states)
 
@@ -126,7 +126,7 @@ class EnvironmentWithEvaluationProxy:
             # Budget ended.
             raise EndOfLearning()
 
-        reward_and_actions = self.environment.step(states, domain)
+        reward_and_actions = self.environment.step(states, domain, corrupt=corrupt)
         self.cumulative_reward += sum(rw for rw, _ in reward_and_actions)
 
         # Same logic as with evaluate_every.
