@@ -371,7 +371,7 @@ impl super::Domain for Equations {
         for (j, local_rewrite_tactic) in &[a_commutativity,
                                       a_associativity,
                                       a_distributivity,
-                                      a_eval,
+                                      a_eval as fn(&SizedTerm, usize, f32) -> Option<(SizedTerm, String, String),
                                       a_cancel_ops,
                                       a_identity_ops].iter().enumerate() {
             if j == 3 {
