@@ -59,7 +59,6 @@ fn step(domain: String, states: Vec<String>, corrupt: f32) -> PyResult<Vec<Optio
                 result.push(d.step(s.clone(), corrupt.clone()).map(|v| v.iter().map(|a| (a.next_state.clone(),
                                                                         a.formal_description.clone(),
                                                                         a.human_description.clone(),
-                                                                        a.is_corrupt.clone()
                                                                     )).collect()));
             }
             Ok(result)
