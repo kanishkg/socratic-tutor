@@ -126,7 +126,7 @@ class EnvironmentWithEvaluationProxy:
             # Budget ended.
             raise EndOfLearning()
 
-        reward_and_actions = self.environment.step(states, domain, corrupt=corrupt)
+        reward_and_actions = self.environment.step(states, domain=domain, corrupt=corrupt)
         self.cumulative_reward += sum(rw for rw, _ in reward_and_actions)
 
         # Same logic as with evaluate_every.
