@@ -81,7 +81,7 @@ impl super::Domain for Sorting {
         (SortingState{ elements: elems }).to_string()
     }
 
-    fn step(&self, state: State) -> Option<Vec<Action>> {
+    fn step(&self, state: State, corrupt: f32) -> Option<Vec<Action>> {
         let s = SortingState::from_str(state.as_str()).unwrap();
 
         if s.is_sorted() {

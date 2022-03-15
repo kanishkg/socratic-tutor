@@ -151,7 +151,7 @@ impl super::Domain for KeyToDoor {
         }.to_string()
     }
 
-    fn step(&self, state: State) -> Option<Vec<Action>> {
+    fn step(&self, state: State, corrupt: f32) -> Option<Vec<Action>> {
         let s = KeyToDoorState::from_str(state.as_str()).unwrap();
         let mut actions = Vec::new();
 

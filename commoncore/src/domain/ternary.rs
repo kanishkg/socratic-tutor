@@ -111,7 +111,7 @@ impl super::Domain for TernaryAddition {
         (TernaryNumber{ digits: digits }).to_string()
     }
 
-    fn step(&self, state: State) -> Option<Vec<Action>> {
+    fn step(&self, state: State, corrupt: f32) -> Option<Vec<Action>> {
         let n = TernaryNumber::from_str(state.as_str()).unwrap();
 
         if n.is_reduced() {

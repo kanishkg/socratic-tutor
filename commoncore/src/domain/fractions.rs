@@ -351,7 +351,7 @@ impl super::Domain for Fractions {
         }
     }
 
-    fn step(&self, state: State) -> Option<Vec<Action>> {
+    fn step(&self, state: State, corrupt: f32) -> Option<Vec<Action>> {
         let t = SizedTerm::from_str(&state).unwrap();
 
         if t.is_solved() {

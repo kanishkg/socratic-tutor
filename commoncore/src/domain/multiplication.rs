@@ -222,7 +222,7 @@ impl super::Domain for Multiplication {
         term.randomize_numbers(&mut rng).to_string()
     }
 
-    fn step(&self, state: State) -> Option<Vec<Action>> {
+    fn step(&self, state: State, corrupt: f32) -> Option<Vec<Action>> {
         let t = SizedTerm::from_str(&state).unwrap();
         if t.is_solved() {
             return None;
