@@ -16,6 +16,7 @@ pub struct Action {
     pub next_state : State,
     pub formal_description : String,
     pub human_description : String,
+    pub is_corrupt : String,
 }
 
 pub trait Domain {
