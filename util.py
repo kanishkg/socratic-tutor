@@ -241,11 +241,13 @@ def corrupt_state(state):
     nums = re.findall('[0-9]+', final_fact)
     num_x = final_fact.count('x')
     if num_x == 1 and len(nums)-1 == num_x:
-        p = 0.
+        p = random.uniform(0, 0.66)
     if len(sigs) == 0:
-        p = 1.
-    if p < 0.5:
+        p = random.uniform(0.33, 1.)
+    if p < 0.33:
         final_fact = corrupt_sigs(final_fact)
+    elif p<0.66:
+        final_fact = corrupt_parantheses(final_fact)
     else:
         final_fact = corrupt_vars(final_fact)
     if final_fact == state.facts[-1]:
