@@ -368,11 +368,11 @@ impl super::Domain for Equations {
         let rct = Rc::new(t);
         rct.collect_children(&mut children);
 
-        for (j, local_rewrite_tactic) in &[a_commutativity,
+        for local_rewrite_tactic in &[a_commutativity,
                                       a_associativity,
                                       a_distributivity,
                                       a_cancel_ops,
-                                      a_identity_ops].iter().enumerate() {
+                                      a_identity_ops]{
             for (i, st) in children.iter().enumerate() {
                 if let Some((nt, fd, hd)) = local_rewrite_tactic(st, i) {
                     let next_state = rct.replace_at_index(i, &nt);
