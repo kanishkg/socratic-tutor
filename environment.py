@@ -166,12 +166,13 @@ class RustEnvironment(Environment):
             actions.append([])
             for (next_state, formal_desc, human_desc) in (actions or []):
                 is_corrupted = False
-                if 'false' in formal_desc:
-                    is_corrupted = False
-                elif 'true' in formal_desc:
-                    is_corrupted = True
-                else:
-                    raise NotImplementedError
+                if 'eval' in formal_desc:
+                    if 'false' in formal_desc:
+                        is_corrupted = False
+                    elif 'true' in formal_desc:
+                        is_corrupted = True
+                    else:
+                        raise NotImplementedError
                 ns = State(states.facts+(next_state,), state.goals, 0.0, corrupt=is_corrupted)
                 actions[-1].append(Action(state,
                                           formal_desc,
