@@ -23,7 +23,7 @@ pub trait Domain {
 
     fn generate(&self, seed: u64) -> State;
 
-    fn step(&self, state: State) -> Option<Vec<Action>>;
+    fn step(&self, state: State, corrupt: f32) -> Option<Vec<Action>>;
 }
 
 fn new_rng(seed: u64) -> Pcg64 {

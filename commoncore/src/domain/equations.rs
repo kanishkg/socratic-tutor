@@ -583,6 +583,7 @@ fn a_distributivity(t: &SizedTerm, i: usize) -> Option<(SizedTerm, String, Strin
 
 fn a_eval(t: &SizedTerm, i: usize, corrupt: f32) -> Option<(SizedTerm, String, String, bool)> {
     let mut rng = rand::thread_rng();
+    let mut p = 0.0;
     if let BinaryOperation(op, t1, t2) = t.t.borrow() {
         if let (Number(n1), Number(n2)) = (t1.t.borrow(), t2.t.borrow()) {
             if *op != Div || !n2.is_integer() || n2.to_integer() != 0 {
