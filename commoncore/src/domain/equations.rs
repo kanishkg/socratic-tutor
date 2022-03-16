@@ -632,6 +632,8 @@ fn a_eval(t: &SizedTerm, i: usize, corrupt: f32) -> Option<(SizedTerm, String, S
                 let mut answer = op.evaluate(n1, n2);
                 let mut is_corrupted:bool = false;
                 let mut corrupt_prob: f32 = rng.gen_range(0.0..1.0);
+                println!("corrupt prob {} {} {}", corrupt_prob, corrupt, p);
+
                 if corrupt_prob <  p {
                     let mut is_corrupted = true;
                     let mut answer: i32 = rng.gen_range(0..100);    
