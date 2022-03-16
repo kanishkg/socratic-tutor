@@ -597,7 +597,7 @@ fn a_eval(t: &SizedTerm, i: usize, corrupt: f32) -> Option<(SizedTerm, String, S
                 if *op == Add {
                     println!("star enum worked");
                 }
-                if Operator::Add == op {
+                if Operator::Add == *op {
                     println!("complicated worked");
                 }
 
