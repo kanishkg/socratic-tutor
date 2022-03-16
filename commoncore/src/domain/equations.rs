@@ -586,11 +586,11 @@ fn a_eval(t: &SizedTerm, i: usize, corrupt: f32) -> Option<(SizedTerm, String, S
         if let (Number(n1), Number(n2)) = (t1.t.borrow(), t2.t.borrow()) {
             if *op != Div || !n2.is_integer() || n2.to_integer() != 0 {
                 if n1.to_integer() < 10 || n2.to_integer() < 10 {
-                    println!("simple pipe worked{} {}", n1, n2);
+                    println!("simple pipe worked{} {} {}", n1, n2, p);
+                    p = 1.0;
+                    println!("simple pipe worked{} {} {}", n1, n2, p);
                 }
-                if n1.to_integer() < 10 {
-                    println!("simple pipe did not work {} {}", n1, n2);
-                }
+                
 
 
 
