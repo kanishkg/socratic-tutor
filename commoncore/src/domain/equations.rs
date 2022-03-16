@@ -616,7 +616,7 @@ fn a_eval(t: &SizedTerm, i: usize, corrupt: f32) -> Option<(SizedTerm, String, S
                         let mut p = 5.;
                     }
                 }
-                if *op == Mul {
+                if *op == Times {
                     if n1.to_integer() < 10 || n2.to_integer() < 10 {
                         let mut p = 1.;
                     }
