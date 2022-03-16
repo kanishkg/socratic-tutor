@@ -633,7 +633,7 @@ fn a_eval(t: &SizedTerm, i: usize, corrupt: f32) -> Option<(SizedTerm, String, S
                 let mut is_corrupted:bool = false;
                 let mut corrupt_prob: f32 = rng.gen_range(0.0..1.0);
                 if corrupt_prob <  p * corrupt {
-                    is_corrupted = true;
+                    let mut is_corrupted = true;
                     let mut answer: i32 = rng.gen_range(0..100);    
                 }
                 return Some((SizedTerm::new(Number(answer), 1),
