@@ -598,7 +598,7 @@ fn a_eval(t: &SizedTerm, i: usize, corrupt: f32) -> Option<(SizedTerm, String, S
                 }
                 if *op == Sub {
                     if n1.to_integer() < 10 || n2.to_integer() < 10 {
-                        let mut p = .5;
+                        let mut p = 0.5;
                     }
                     else if n1.to_integer() < 100 || n2.to_integer() < 100 {
                         let mut p = 3.;
