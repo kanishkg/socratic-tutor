@@ -586,6 +586,24 @@ fn a_eval(t: &SizedTerm, i: usize, corrupt: f32) -> Option<(SizedTerm, String, S
         if let (Number(n1), Number(n2)) = (t1.t.borrow(), t2.t.borrow()) {
             if *op != Div || !n2.is_integer() || n2.to_integer() != 0 {
                 if op.to_string() == "+" {
+                    println!("worked");
+                }
+                if *op.to_string() == "+" {
+                    println!("star worked");
+                }
+                if op == Add {
+                    println!("enum worked");
+                }
+                if *op == Add {
+                    println!("star enum worked");
+                }
+                if Operator::Add == op {
+                    println!("complicated worked");
+                }
+
+
+
+                if op.to_string() == "+" {
                     if n1.to_integer() < 10 || n2.to_integer() < 10 {
                         let mut p = 1.0;
                     }
