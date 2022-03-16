@@ -167,8 +167,6 @@ class RustEnvironment(Environment):
             for (next_state, formal_desc, human_desc) in (actions or []):
                 is_corrupted = False
                 if 'eval' in formal_desc:
-
-                    print(formal_desc)
                     if 'false' in formal_desc:
                         is_corrupted = False
                     elif 'true' in formal_desc:
