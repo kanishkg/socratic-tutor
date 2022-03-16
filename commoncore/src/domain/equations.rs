@@ -596,46 +596,46 @@ fn a_eval(t: &SizedTerm, i: usize, corrupt: f32) -> Option<(SizedTerm, String, S
 
                 if *op == Add {
                     if n1.to_integer() < 10 || n2.to_integer() < 10 {
-                        let mut p = 1.0;
+                        p = 1.0;
                     }
                     else if n1.to_integer() < 100 || n2.to_integer() < 100 {
-                        let mut p = 2.;
+                        p = 2.;
                     }
                     else {
-                        let mut p = 4.;
+                        p = 4.;
                     }
                 }
                 if *op == Sub {
                     if n1.to_integer() < 10 || n2.to_integer() < 10 {
-                        let mut p = 1.;
+                        p = 1.;
                     }
                     else if n1.to_integer() < 100 || n2.to_integer() < 100 {
-                        let mut p = 3.;
+                        p = 3.;
                     }
                     else {
-                        let mut p = 5.;
+                        p = 5.;
                     }
                 }
                 if *op == Times {
                     if n1.to_integer() < 10 || n2.to_integer() < 10 {
-                        let mut p = 1.;
+                        p = 1.;
                     }
                     else if n1.to_integer() < 100 || n2.to_integer() < 100 {
-                        let mut p = 7.;
+                        p = 7.;
                     }
                     else {
-                        let mut p = 10.0;
+                        p = 10.0;
                     }
                 }
                 if *op == Div {
                     if n1.to_integer() < 10 || n2.to_integer() < 10 {
-                        let mut p = 2.;
+                        p = 2.;
                     }
                     else if n1.to_integer() < 100 || n2.to_integer() < 100 {
-                        let mut p = 8.;
+                        p = 8.;
                     }
                     else {
-                        let mut p = 10.;
+                        p = 10.;
                     }
                 }
                 let mut answer = op.evaluate(n1, n2);
@@ -644,8 +644,8 @@ fn a_eval(t: &SizedTerm, i: usize, corrupt: f32) -> Option<(SizedTerm, String, S
                 println!("corrupt prob {} {} {} {} {}", corrupt_prob, corrupt, p, answer, op.to_string());
 
                 if corrupt_prob <  p {
-                    let mut is_corrupted = true;
-                    let mut answer: i32 = rng.gen_range(0..100);    
+                    is_corrupted = true;
+                    answer: i32 = rng.gen_range(0..100);    
                 }
                 return Some((SizedTerm::new(Number(answer), 1),
                              format!("eval {}, {}, {}", is_corrupted, i, t.to_string()),
