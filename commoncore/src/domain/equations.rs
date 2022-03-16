@@ -585,7 +585,7 @@ fn a_eval(t: &SizedTerm, i: usize, corrupt: f32) -> Option<(SizedTerm, String, S
     if let BinaryOperation(op, t1, t2) = t.t.borrow() {
         if let (Number(n1), Number(n2)) = (t1.t.borrow(), t2.t.borrow()) {
             if *op != Div || !n2.is_integer() || n2.to_integer() != 0 {
-                if *op == Add {
+                if op.to_string() == "+" {
                     if n1.to_integer() < 10 || n2.to_integer() < 10 {
                         let mut p = 1.0;
                     }
@@ -596,7 +596,7 @@ fn a_eval(t: &SizedTerm, i: usize, corrupt: f32) -> Option<(SizedTerm, String, S
                         let mut p = 4.;
                     }
                 }
-                if *op == Sub {
+                if op.to_string() == "-" {
                     if n1.to_integer() < 10 || n2.to_integer() < 10 {
                         let mut p = 1.;
                     }
@@ -607,7 +607,7 @@ fn a_eval(t: &SizedTerm, i: usize, corrupt: f32) -> Option<(SizedTerm, String, S
                         let mut p = 5.;
                     }
                 }
-                if *op == Times {
+                if op.to_string() == "*" {
                     if n1.to_integer() < 10 || n2.to_integer() < 10 {
                         let mut p = 1.;
                     }
@@ -618,7 +618,7 @@ fn a_eval(t: &SizedTerm, i: usize, corrupt: f32) -> Option<(SizedTerm, String, S
                         let mut p = 10.0;
                     }
                 }
-                if *op == Div {
+                if op.to_string() == "/" {
                     if n1.to_integer() < 10 || n2.to_integer() < 10 {
                         let mut p = 2.;
                     }
