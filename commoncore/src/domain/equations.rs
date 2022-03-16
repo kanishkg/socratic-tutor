@@ -585,19 +585,16 @@ fn a_eval(t: &SizedTerm, i: usize, corrupt: f32) -> Option<(SizedTerm, String, S
     if let BinaryOperation(op, t1, t2) = t.t.borrow() {
         if let (Number(n1), Number(n2)) = (t1.t.borrow(), t2.t.borrow()) {
             if *op != Div || !n2.is_integer() || n2.to_integer() != 0 {
-                if op.to_string() == "+" {
-                    println!("worked");
+                if n1.to_integer() < 10 || n2.to_integer() < 10 {
+                    println!("simple pipe worked{} {}", n1, n2);
                 }
+                if n1.to_integer() < 10 {
+                    println!("simple pipe worked{} {}", n1, n2);
+                }
+
+
+
                 if *op == Add {
-                    println!("star enum worked");
-                }
-                if Operator::Add == *op {
-                    println!("complicated worked");
-                }
-
-
-
-                if op.to_string() == "+" {
                     if n1.to_integer() < 10 || n2.to_integer() < 10 {
                         let mut p = 1.0;
                     }
@@ -608,7 +605,7 @@ fn a_eval(t: &SizedTerm, i: usize, corrupt: f32) -> Option<(SizedTerm, String, S
                         let mut p = 4.;
                     }
                 }
-                if op.to_string() == "-" {
+                if *op == Sub {
                     if n1.to_integer() < 10 || n2.to_integer() < 10 {
                         let mut p = 1.;
                     }
@@ -619,7 +616,7 @@ fn a_eval(t: &SizedTerm, i: usize, corrupt: f32) -> Option<(SizedTerm, String, S
                         let mut p = 5.;
                     }
                 }
-                if op.to_string() == "*" {
+                if *op == Mul {
                     if n1.to_integer() < 10 || n2.to_integer() < 10 {
                         let mut p = 1.;
                     }
@@ -630,7 +627,7 @@ fn a_eval(t: &SizedTerm, i: usize, corrupt: f32) -> Option<(SizedTerm, String, S
                         let mut p = 10.0;
                     }
                 }
-                if op.to_string() == "/" {
+                if *op == Div {
                     if n1.to_integer() < 10 || n2.to_integer() < 10 {
                         let mut p = 2.;
                     }
