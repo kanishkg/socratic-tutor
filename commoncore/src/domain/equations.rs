@@ -589,7 +589,7 @@ fn a_eval(t: &SizedTerm, i: usize, corrupt: f32) -> Option<(SizedTerm, String, S
                     println!("simple pipe worked{} {}", n1, n2);
                 }
                 if n1.to_integer() < 10 {
-                    println!("simple pipe worked{} {}", n1, n2);
+                    println!("simple pipe did not work {} {}", n1, n2);
                 }
 
 
