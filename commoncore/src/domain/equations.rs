@@ -587,7 +587,7 @@ fn a_eval(t: &SizedTerm, i: usize, corrupt: f32) -> Option<(SizedTerm, String, S
             if *op != Div || !n2.is_integer() || n2.to_integer() != 0 {
                 if *op == Add {
                     if n1.to_integer() < 10 || n2.to_integer() < 10 {
-                        p = 1.0;
+                        p = .1;
                     }
                     else if n1.to_integer() < 100 || n2.to_integer() < 100 {
                         p = 2.;
@@ -598,7 +598,7 @@ fn a_eval(t: &SizedTerm, i: usize, corrupt: f32) -> Option<(SizedTerm, String, S
                 }
                 if *op == Sub {
                     if n1.to_integer() < 10 || n2.to_integer() < 10 {
-                        p = 1.;
+                        p = .5;
                     }
                     else if n1.to_integer() < 100 || n2.to_integer() < 100 {
                         p = 3.;
