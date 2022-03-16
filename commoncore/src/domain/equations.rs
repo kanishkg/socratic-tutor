@@ -591,9 +591,6 @@ fn a_eval(t: &SizedTerm, i: usize, corrupt: f32) -> Option<(SizedTerm, String, S
                 if *op.to_string() == "+" {
                     println!("star worked");
                 }
-                if op == Add {
-                    println!("enum worked");
-                }
                 if *op == Add {
                     println!("star enum worked");
                 }
