@@ -587,46 +587,46 @@ fn a_eval(t: &SizedTerm, i: usize, corrupt: f32) -> Option<(SizedTerm, String, S
             if *op != Div || !n2.is_integer() || n2.to_integer() != 0 {
                 if *op == Add {
                     if n1.to_integer() < 10 || n2.to_integer() < 10 {
-                        let mut p = 0.01;
+                        let mut p = 0.1;
                     }
                     else if n1.to_integer() < 100 || n2.to_integer() < 100 {
-                        let mut p = 0.2;
+                        let mut p = 2.;
                     }
                     else {
-                        let mut p = 0.4;
+                        let mut p = 4.;
                     }
                 }
                 if *op == Sub {
                     if n1.to_integer() < 10 || n2.to_integer() < 10 {
-                        let mut p = 0.02;
+                        let mut p = .5;
                     }
                     else if n1.to_integer() < 100 || n2.to_integer() < 100 {
-                        let mut p = 0.3;
+                        let mut p = 3.;
                     }
                     else {
-                        let mut p = 0.5;
+                        let mut p = 5.;
                     }
                 }
                 if *op == Times {
                     if n1.to_integer() < 10 || n2.to_integer() < 10 {
-                        let mut p = 0.1;
+                        let mut p = 1.;
                     }
                     else if n1.to_integer() < 100 || n2.to_integer() < 100 {
-                        let mut p = 0.7;
+                        let mut p = 7.;
                     }
                     else {
-                        let mut p = 1.0;
+                        let mut p = 10.0;
                     }
                 }
                 if *op == Div {
                     if n1.to_integer() < 10 || n2.to_integer() < 10 {
-                        let mut p = 0.2;
+                        let mut p = 2.;
                     }
                     else if n1.to_integer() < 100 || n2.to_integer() < 100 {
-                        let mut p = 0.8;
+                        let mut p = 8.;
                     }
                     else {
-                        let mut p = 1.0;
+                        let mut p = 10.;
                     }
                 }
                 let mut answer = op.evaluate(n1, n2);
